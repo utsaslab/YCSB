@@ -18,9 +18,9 @@ public class FacebookFieldLengthGenerator extends NumberGenerator {
 
   private static final int DISCRETE_DISTRIBUTION_LENGTH = 15;
 
-  private static final double PARETO_MU = 0;
-  private static final double PARETO_SIGMA = 214.476;
-  private static final double PARETO_XI = -0.348238;
+  private static final double PARETO_LOCATION = 0;
+  private static final double PARETO_SCALE = 214.476;
+  private static final double PARETO_SHAPE = -0.348238;
 
   private ArrayList<Double> discreteFieldProbabilities;
   private GeneralizedParetoGenerator paretoGenerator;
@@ -41,7 +41,7 @@ public class FacebookFieldLengthGenerator extends NumberGenerator {
     }
 
     paretoGenerator = new GeneralizedParetoGenerator(
-        PARETO_MU, PARETO_SIGMA, PARETO_XI);
+        PARETO_LOCATION, PARETO_SCALE, PARETO_SHAPE);
   }
 
   @Override

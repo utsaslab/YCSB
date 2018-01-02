@@ -30,6 +30,10 @@
 # The name of the workload class to use
 workload=com.yahoo.ycsb.workloads.CoreWorkload
 
+# If a generalized pareto distribution should be used to determine
+# inter-arrival rate of requests to the database. (used by facebook workload)
+usearrivalrategenerator=false
+
 # There is no default setting for recordcount but it is
 # required to be set.
 # The number of records in the table to be inserted in

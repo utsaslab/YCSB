@@ -20,6 +20,7 @@ package com.yahoo.ycsb;
 import com.yahoo.ycsb.measurements.Measurements;
 import com.yahoo.ycsb.measurements.exporter.MeasurementsExporter;
 import com.yahoo.ycsb.measurements.exporter.TextMeasurementsExporter;
+import com.yahoo.ycsb.generator.*;
 import org.apache.htrace.core.HTraceConfiguration;
 import org.apache.htrace.core.TraceScope;
 import org.apache.htrace.core.Tracer;
@@ -360,6 +361,7 @@ final class RemainingFormatter {
  * A thread for executing transactions or data inserts to the database.
  */
 class ClientThread implements Runnable {
+  public static final String USE_ARRIVAL_RATE_GENERATOR = "usearrivalrategenerator";
   // Counts down each of the clients completing.
   private final CountDownLatch completeLatch;
 
@@ -369,6 +371,8 @@ class ClientThread implements Runnable {
   private Workload workload;
   private int opcount;
   private double targetOpsPerMs;
+  private boolean useInterArrivalGenerator;
+  private NumberGenerator interArrivalGenerator;
 
   private int opsdone;
   private int threadid;
@@ -403,6 +407,12 @@ class ClientThread implements Runnable {
     this.props = props;
     measurements = Measurements.getMeasurements();
     spinSleep = Boolean.valueOf(this.props.getProperty("spin.sleep", "false"));
+    useInterArrivalGenerator = Boolean.valueOf(
+        this.props.getProperty(USE_ARRIVAL_RATE_GENERATOR, "false"));
+    if (useInterArrivalGenerator) {
+      interArrivalGenerator = 
+        new GeneralizedParetoGenerator(0, 16.0292, -0.154971);
+    }
     this.completeLatch = completeLatch;
   }
 
@@ -500,12 +510,19 @@ class ClientThread implements Runnable {
   }
 
   private void throttleNanos(long startTimeNanos) {
-    //throttle the operations
-    if (targetOpsPerMs > 0) {
-      // delay until next tick
-      long deadline = startTimeNanos + opsdone * targetOpsTickNs;
+    if (useInterArrivalGenerator) {
+      long gap = 1000 * interArrivalGenerator.nextValue().longValue();
+      long deadline = startTimeNanos + gap;
       sleepUntil(deadline);
       measurements.setIntendedStartTimeNs(deadline);
+    } else {
+      //throttle the operations
+      if (targetOpsPerMs > 0) {
+        // delay until next tick
+        long deadline = startTimeNanos + opsdone * targetOpsTickNs;
+        sleepUntil(deadline);
+        measurements.setIntendedStartTimeNs(deadline);
+      }
     }
   }
 

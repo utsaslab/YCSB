@@ -45,7 +45,12 @@ public class FacebookWorkload extends CoreWorkload {
     int keycount = Integer.parseInt(p.getProperty(
         Client.RECORD_COUNT_PROPERTY, Client.DEFAULT_RECORD_COUNT));
     keysizes = new ArrayList<Integer>(keycount);
-    readKeySizes();
+
+    // Only read from key size file if we are running the workload
+    if (Boolean.valueOf(p.getProperty(
+            Client.DO_TRANSACTIONS_PROPERTY, String.valueOf(true)))) {
+      readKeySizes();
+    }
   }
 
   protected void readKeySizes() throws WorkloadException {
@@ -82,12 +87,15 @@ public class FacebookWorkload extends CoreWorkload {
     int size;
     // only generate a new key size if we have not already done so for this
     // keynum
-    if (keysizes.get((int)keynum) == null) {
+    // TODO: this check can be optimized.
+    if ((int)keynum >= keysizes.size()) {
       size = keylengthgenerator.nextValue().intValue();
-      this.keysizes.add((int)keynum, size);
+      System.out.println(keynum);
+      keysizes.add(size);
     } else {
-      size = this.keysizes.get((int)keynum);
+      size = keysizes.get((int)keynum);
     }
+
     StringBuilder sb = new StringBuilder(size);
 
     if (!orderedinserts) {

@@ -1,11 +1,17 @@
 package com.yahoo.ycsb.workloads;
 
+import com.yahoo.ycsb.*;
+import com.yahoo.ycsb.generator.*;
 import com.yahoo.ycsb.Utils;
 import com.yahoo.ycsb.WorkloadException;
-import com.yahoo.ycsb.generator.*;
 
-import java.util.Properties;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.ArrayList;
 
 /**
  * A Workload modeled after Facebook's Memcached workload.
@@ -16,9 +22,11 @@ public class FacebookWorkload extends CoreWorkload {
 
   protected NumberGenerator keylengthgenerator;
 
-  private static final double EXTREME_VALUE_LOCATION = 30.7984;
-  private static final double EXTREME_VALUE_SCALE = 8.20449;
-  private static final double EXTREME_VALUE_SHAPE = -0.078688;
+  protected static final double EXTREME_VALUE_LOCATION = 30.7984;
+  protected static final double EXTREME_VALUE_SCALE = 8.20449;
+  protected static final double EXTREME_VALUE_SHAPE = -0.078688;
+
+  protected ArrayList<Integer> keysizes;
 
   @Override
   public void init(Properties p) throws WorkloadException {
@@ -26,19 +34,60 @@ public class FacebookWorkload extends CoreWorkload {
     try {
       fieldlengthgenerator = new FacebookFieldLengthGenerator();
     } catch (IOException e) {
-      throw new WorkloadException("Could not create field length generator.\n");
+      throw new WorkloadException(e.getMessage());
     }
 
     keylengthgenerator = new GeneralizedExtremeValueGenerator(
         EXTREME_VALUE_LOCATION, 
         EXTREME_VALUE_SCALE, 
         EXTREME_VALUE_SHAPE);
+
+    int keycount = Integer.parseInt(p.getProperty(
+        Client.RECORD_COUNT_PROPERTY, Client.DEFAULT_RECORD_COUNT));
+    keysizes = new ArrayList<Integer>(keycount);
+    readKeySizes();
+  }
+
+  protected void readKeySizes() throws WorkloadException {
+    // TODO: maybe use a id to identify each run intead of hardcoding filename
+    try (BufferedReader in = new BufferedReader(new FileReader(
+            "temp_keysizes.txt"))) {
+      String line;
+      while ((line = in.readLine()) != null) {
+        keysizes.add(Integer.parseInt(line));
+      }
+    } catch (IOException e) {
+      throw new WorkloadException(e.getMessage());
+    }
+  }
+
+  @Override
+  public void cleanup() throws WorkloadException {
+    // TODO: maybe use a id to identify each run
+    // saves the keysizes to file to be reused by the actual workload
+    try (BufferedWriter out = new BufferedWriter(new FileWriter(
+            "temp_keysizes.txt"))) {
+      for (int size: keysizes) {
+        out.write(Integer.toString(size));
+        out.write("\n"); 
+      }
+    } catch (IOException e) {
+      throw new WorkloadException(e.getMessage());
+    } 
   }
 
   // NOTE: This function might break the ordering of the keys.
   @Override
   protected String buildKeyName(long keynum) {
-    int size = keylengthgenerator.nextValue().intValue();
+    int size;
+    // only generate a new key size if we have not already done so for this
+    // keynum
+    if (keysizes.get((int)keynum) == null) {
+      size = keylengthgenerator.nextValue().intValue();
+      this.keysizes.add((int)keynum, size);
+    } else {
+      size = this.keysizes.get((int)keynum);
+    }
     StringBuilder sb = new StringBuilder(size);
 
     if (!orderedinserts) {

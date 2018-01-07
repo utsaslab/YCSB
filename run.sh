@@ -62,6 +62,11 @@ main() {
       -am clean package || error "compilation failed"
   fi
 
+  # remove temp file
+  rm ${KEYSIZE_FILE}
+
+  echo "FLUSHDB" | redis-cli 
+
   # load data
   ./${YCSB_COMMAND_PATH} load ${database} ${YCSB_FLAGS} \
     -P ${workload} ${properties} > ${id}_load.txt
@@ -69,6 +74,8 @@ main() {
   # run workload
   ./${YCSB_COMMAND_PATH} run ${database} ${YCSB_FLAGS} \
     -P ${workload} ${properties} > ${id}_run.txt
+
+  echo "FLUSHDB" | redis-cli 
 }
 
 main "${@}"

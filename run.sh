@@ -53,6 +53,7 @@ main() {
   case ${database} in
     redis) properties="-p redis.host=${LOCALHOST} -p 
       redis.port=${REDIS_PORT}";;
+    rocksdb) properties="-p rocksdb.dir=tmp/rocksdb-ycsb";;
     *) error "unsupported database: ${database}";
   esac
 

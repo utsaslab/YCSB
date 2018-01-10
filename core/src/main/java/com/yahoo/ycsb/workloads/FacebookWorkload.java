@@ -90,7 +90,6 @@ public class FacebookWorkload extends CoreWorkload {
     // TODO: this check can be optimized.
     if ((int)keynum >= keysizes.size()) {
       size = keylengthgenerator.nextValue().intValue();
-      System.out.println(keynum);
       keysizes.add(size);
     } else {
       size = keysizes.get((int)keynum);

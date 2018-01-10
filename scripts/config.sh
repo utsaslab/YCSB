@@ -10,7 +10,13 @@ YCSB_COMMAND_PATH="bin/ycsb"
 YCSB_FLAGS="-s"
 
 LOCALHOST="127.0.0.1"
-KEYSIZE_FILE="temp_keysizes.txt"
+
+# temp files
+TEMP_DIR="tmp"
+KEYSIZE_FILE="${TEMP_DIR}/temp_keysizes.txt"
+
+# output files
+OUTPUT_DIR="output"
 
 # redis
 REDIS_PORT="6379"

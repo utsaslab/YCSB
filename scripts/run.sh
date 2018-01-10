@@ -2,8 +2,8 @@
 # load and run the workload
 
 # source config and util
-. config.sh
-. util.sh
+. scripts/config.sh
+. scripts/util.sh
 
 usage() {
   cat <<EOF
@@ -63,6 +63,10 @@ main() {
       -am clean package || error "compilation failed"
   fi
 
+  # create temp directories
+  mkdir -p temp
+  mkdir -p output
+
   # remove temp file
   rm ${KEYSIZE_FILE}
 
@@ -70,11 +74,11 @@ main() {
 
   # load data
   ./${YCSB_COMMAND_PATH} load ${database} ${YCSB_FLAGS} \
-    -P ${workload} ${properties} > ${id}_load.txt
+    -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_load.txt
 
   # run workload
   ./${YCSB_COMMAND_PATH} run ${database} ${YCSB_FLAGS} \
-    -P ${workload} ${properties} > ${id}_run.txt
+    -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_run.txt
 
   echo "FLUSHDB" | redis-cli 
 }

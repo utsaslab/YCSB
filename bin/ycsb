@@ -88,6 +88,7 @@ DATABASES = {
     "infinispan"   : "com.yahoo.ycsb.db.InfinispanClient",
     "jdbc"         : "com.yahoo.ycsb.db.JdbcDBClient",
     "kudu"         : "com.yahoo.ycsb.db.KuduYCSBClient",
+    "leveldb"      : "com.yahoo.ycsb.db.LevelDBClient",
     "memcached"    : "com.yahoo.ycsb.db.MemcachedClient",
     "maprdb"       : "com.yahoo.ycsb.db.mapr.MapRDBClient",
     "maprjsondb"   : "com.yahoo.ycsb.db.mapr.MapRJSONDBClient",

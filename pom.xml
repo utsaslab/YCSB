@@ -139,6 +139,7 @@ LICENSE file.
     <module>infinispan</module>
     <module>jdbc</module>
     <module>kudu</module>
+    <module>leveldb</module>
     <!--<module>mapkeeper</module>-->
     <module>memcached</module>
     <module>mongodb</module>

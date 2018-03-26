@@ -181,6 +181,11 @@ LICENSE file.
     </dependency>
     <dependency>
       <groupId>com.yahoo.ycsb</groupId>
+      <artifactId>leveldb-binding</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.yahoo.ycsb</groupId>
       <artifactId>memcached-binding</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -217,6 +222,11 @@ LICENSE file.
     <dependency>
       <groupId>com.yahoo.ycsb</groupId>
       <artifactId>riak-binding</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.yahoo.ycsb</groupId>
+      <artifactId>rocksdb-binding</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

@@ -336,6 +336,8 @@ public class CoreWorkload extends Workload {
       fieldlengthgenerator = new UniformLongGenerator(1, fieldlength);
     } else if (fieldlengthdistribution.compareTo("zipfian") == 0) {
       fieldlengthgenerator = new ZipfianGenerator(1, fieldlength);
+    } else if (fieldlengthdistribution.compareTo("pareto") == 0) {
+      fieldlengthgenerator = new GeneralizedParetoGenerator(0, 214.476, -0.348238);
     } else if (fieldlengthdistribution.compareTo("histogram") == 0) {
       try {
         fieldlengthgenerator = new HistogramGenerator(fieldlengthhistogram);

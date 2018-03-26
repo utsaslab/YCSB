@@ -1,0 +1,33 @@
+# Yahoo! Cloud System Benchmark
+# Facebook Workload: Read heavy workload
+#   Application example: Session store recording recent actions
+#                        
+#   Read/update ratio: 97/3
+#   Default key size: for size < 14 bytes: uses discrete distribution found in
+#                     core/fb.txt
+#   
+#                     for size > 14 bytes: Generalized Extreme Value
+#                     distribution with params: location=30.7984,
+#                     scale=8.20449, shape=-0.078688
+#
+#   Default data size: Generalized Pareto distribution with params:
+#                      location=0, scale=214.476, shape=-0.348238
+#
+#   Inter-arrival rate: Generalized Pareto distribution
+#   Request distribution: zipfian
+
+recordcount=1000
+operationcount=1000
+workload=com.yahoo.ycsb.workloads.FacebookWorkload
+
+usearrivalrategenerator=true
+
+readallfields=true
+
+readproportion=0.97
+updateproportion=0.03
+scanproportion=0
+insertproportion=0
+
+requestdistribution=zipfian
+

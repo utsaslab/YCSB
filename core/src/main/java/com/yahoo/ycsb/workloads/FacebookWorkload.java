@@ -26,15 +26,22 @@ public class FacebookWorkload extends CoreWorkload {
   protected static final double EXTREME_VALUE_SCALE = 8.20449;
   protected static final double EXTREME_VALUE_SHAPE = -0.078688;
 
+  public static final String USE_DEFAULT_FIELD_LENGTH_GENERATOR = "usedefaultfieldgenerator";
+
+
   protected ArrayList<Integer> keysizes;
 
   @Override
   public void init(Properties p) throws WorkloadException {
     super.init(p);
-    try {
-      fieldlengthgenerator = new FacebookFieldLengthGenerator();
-    } catch (IOException e) {
-      throw new WorkloadException(e.getMessage());
+    boolean usedefaultgenerator = Boolean.parseBoolean(p.getProperty(
+        USE_DEFAULT_FIELD_LENGTH_GENERATOR, false));
+    if (!usedefaultgenerator) {
+        try {
+            fieldlengthgenerator = new FacebookFieldLengthGenerator();
+        } catch (IOException e) {
+            throw new WorkloadException(e.getMessage());
+        }
     }
 
     keylengthgenerator = new GeneralizedExtremeValueGenerator(

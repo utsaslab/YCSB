@@ -35,7 +35,7 @@ public class FacebookWorkload extends CoreWorkload {
   public void init(Properties p) throws WorkloadException {
     super.init(p);
     boolean usedefaultgenerator = Boolean.parseBoolean(p.getProperty(
-          USE_DEFAULT_FIELD_LENGTH_GENERATOR, false));
+          USE_DEFAULT_FIELD_LENGTH_GENERATOR, "false"));
     if (!usedefaultgenerator) {
       try {
         fieldlengthgenerator = new FacebookFieldLengthGenerator();

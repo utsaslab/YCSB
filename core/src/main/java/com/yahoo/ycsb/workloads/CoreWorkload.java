@@ -365,7 +365,6 @@ public class CoreWorkload extends Workload {
     } else if (fieldlengthdistribution.compareTo("facebook") == 0) {
       try {
         fieldlengthgenerator = new FacebookFieldLengthGenerator();
-        System.out.println("fb gen");
       } catch (IOException e) {
         throw new WorkloadException(e.getMessage());
       }

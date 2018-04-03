@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * Utility functions.
@@ -31,6 +32,18 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class Utils {
   private Utils() {
     // not used
+  }
+
+  private static final Random RAND = new Random();
+  private static final ThreadLocal<Random> RNG = new ThreadLocal<Random>();
+
+  public static Random random() {
+    Random ret = RNG.get();
+    if (ret == null) {
+      ret = new Random(RAND.nextLong());
+      RNG.set(ret);
+    }
+    return ret;
   }
 
   /**

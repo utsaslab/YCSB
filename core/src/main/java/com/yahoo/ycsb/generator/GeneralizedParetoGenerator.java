@@ -10,7 +10,7 @@ public class GeneralizedParetoGenerator extends NumberGenerator {
   private final double sigma;
   private final double xi;
 
-  public GeneralizedParetoGenerator(final double mu, final double sigma, 
+  public GeneralizedParetoGenerator(final double mu, final double sigma,
       final double xi) {
     this.mu = mu;
     this.sigma = sigma;
@@ -19,13 +19,17 @@ public class GeneralizedParetoGenerator extends NumberGenerator {
 
   @Override
   public Double nextValue() {
-    // TODO: handle xi = 0 case
-    return mu + 
-      ((sigma * (Math.pow(Utils.random().nextDouble(), -xi) - 1)) / xi);
+    if (xi == 0) {
+      return mu - sigma * Math.log(Utils.random().nextDouble());
+    } else {
+      return mu +
+        ((sigma * (Math.pow(Utils.random().nextDouble(), -xi) - 1)) / xi);
+    }
   }
 
   @Override
   public double mean() {
+    // For xi < 1
     return mu + (sigma / (1 - xi));
   }
 

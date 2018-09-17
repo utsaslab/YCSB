@@ -313,9 +313,27 @@ public class CoreWorkload extends Workload {
   public static final String HOTSPOT_OPN_FRACTION = "hotspotopnfraction";
 
   /**
-   * Default value of the percentage operations accessing the hot set.
+   * default value of the percentage operations accessing the hot set.
    */
   public static final String HOTSPOT_OPN_FRACTION_DEFAULT = "0.8";
+
+  /**
+   * Name of property for the location parameter of the Generalized Pareto Distribution.
+   */
+  public static final String GPD_LOCATION_PROPERTY = "GeneralizedParetoDistributionLocation";
+  public static final String GPD_LOCATION_PROPERTY_DEFAULT = "0";
+
+  /**
+   * Name of property for the scale parameter of the Generalized Pareto Distribution.
+   */
+  public static final String GPD_SCALE_PROPERTY = "GeneralizedParetoDistributionScale";
+  public static final String GPD_SCALE_PROPERTY_DEFAULT = "214.476";
+
+  /**
+   * Name of property for the shape parameter of the Generalized Pareto Distribution.
+   */
+  public static final String GPD_SHAPE_PROPERTY = "GeneralizedParetoDistributionShape";
+  public static final String GPD_SHAPE_PROPERTY_DEFAULT = "-0.348238";
 
   /**
    * How many times to retry when insertion of a single item to a DB fails.

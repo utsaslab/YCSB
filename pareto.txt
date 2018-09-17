@@ -1,0 +1,7 @@
+To use the GPD 3 extra parameters are required to be defined in the workload
+file.
+
+mu (location)- 
+sigma (sigma)- 
+xi (shape)- 
+

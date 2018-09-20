@@ -1,6 +1,9 @@
 # ignore compiled byte code
 target
 
+# ignore libraries
+lib
+
 # ignore output files from testing
 output*
 

@@ -8,8 +8,8 @@
     <relativePath>../binding-parent</relativePath>
   </parent>
   
-  <artifactId>leveldbjni-binding</artifactId>
-  <name>LevelDBJNI Binding</name>
+  <artifactId>pebblesdb-binding</artifactId>
+  <name>PebblesDB Binding</name>
 
   <dependencies>
     <dependency>
@@ -36,7 +36,6 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/leveldbjni-99-master-SNAPSHOT.jar</systemPath>
     </dependency>
-
     <dependency>
       <groupId>org.iq80.leveldb</groupId>
       <artifactId>leveldb-api</artifactId>

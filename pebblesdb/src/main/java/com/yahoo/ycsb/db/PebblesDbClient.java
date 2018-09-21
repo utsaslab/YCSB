@@ -30,7 +30,7 @@ import com.yahoo.ycsb.StringByteIterator;
 /**
  * LevelDBJni client for YCSB framework.
  */
-public class LevelDbJniClient extends DB {
+public class PebblesDbClient extends DB {
 
   private static org.iq80.leveldb.DB db = null;
 

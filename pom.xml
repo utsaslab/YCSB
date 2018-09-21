@@ -146,12 +146,12 @@ LICENSE file.
     <module>jdbc</module>
     <module>kudu</module>
     <module>leveldb</module>
-    <module>leveldbjni</module>
     <!--<module>mapkeeper</module>-->
     <module>memcached</module>
     <module>mongodb</module>
     <module>nosqldb</module>
     <module>orientdb</module>
+    <module>pebblesdb</module>
     <module>rados</module>
     <module>redis</module>
     <module>rest</module>

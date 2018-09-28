@@ -379,7 +379,13 @@ public class CoreWorkload extends Workload {
     } else if (fieldlengthdistribution.compareTo("zipfian") == 0) {
       fieldlengthgenerator = new ZipfianGenerator(minfieldlength, fieldlength);
     } else if (fieldlengthdistribution.compareTo("pareto") == 0) {
-      fieldlengthgenerator = new GeneralizedParetoGenerator(0, 214.476, -0.348238);
+      float gpdlocation =
+          Float.parseFloat(p.getProperty(GPD_LOCATION_PROPERTY, GPD_LOCATION_PROPERTY_DEFAULT));
+      float gpdscale =
+          Float.parseFloat(p.getProperty(GPD_SCALE_PROPERTY, GPD_SCALE_PROPERTY_DEFAULT));
+      float gpdshape =
+          Float.parseFloat(p.getProperty(GPD_SHAPE_PROPERTY, GPD_SHAPE_PROPERTY_DEFAULT));
+      fieldlengthgenerator = new GeneralizedParetoGenerator(gpdlocation, gpdscale, gpdshape);
     } else if (fieldlengthdistribution.compareTo("facebook") == 0) {
       try {
         fieldlengthgenerator = new FacebookFieldLengthGenerator();

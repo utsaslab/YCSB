@@ -8,13 +8,13 @@ This is a YCSB database abstraction for PebblesDB, which is a write-optimized ke
 
 Clone this repository.
 
-    git clone https://github.com/abhijith97/YCSB
+    git clone https://github.com/utsaslab/YCSB.git
     export YCSB_HOME=`cd YCSB; pwd`
 	cd ${YCSB_HOME}
 
 
 Copy the jars created by LevelDbJni. Follow procedure at :
-https://github.com/abhijith97/leveldbjni
+https://github.com/utsaslab/leveldbjni.git
 
 	mkdir ${YCSB_HOME}/pebblesdb/lib
 	cp ${LEVELDBJNI_HOME}/leveldbjni/target/*.jar ${YCSB_HOME}/pebblesdb/lib

@@ -511,6 +511,7 @@ class ClientThread implements Runnable {
 
   private void throttleNanos(long startTimeNanos) {
     if (useInterArrivalGenerator) {
+      // interArrivalGenerator returns microseconds
       long gap = 1000 * interArrivalGenerator.nextValue().longValue();
       long deadline = startTimeNanos + gap;
       sleepUntil(deadline);

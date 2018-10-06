@@ -20,6 +20,8 @@ Yahoo! Cloud System Benchmark (YCSB)
 ====================================
 [![Build Status](https://travis-ci.org/brianfrankcooper/YCSB.png?branch=master)](https://travis-ci.org/brianfrankcooper/YCSB)
 
+***This is a port of YCSB that includes bindings to the [PebblesDB](https://github.com/utsaslab/pebblesdb) key-value store. Bindings created by [Abhijith Nair](https://github.com/abhijith97).***
+
 Links
 -----
 http://wiki.github.com/brianfrankcooper/YCSB/  

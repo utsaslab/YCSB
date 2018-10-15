@@ -16,8 +16,8 @@
 #   Inter-arrival rate: Generalized Pareto distribution
 #   Request distribution: zipfian
 
-recordcount=1000
-operationcount=1000
+recordcount=10000
+operationcount=10000
 workload=com.yahoo.ycsb.workloads.FacebookWorkload
 
 usearrivalrategenerator=true

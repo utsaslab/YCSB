@@ -51,10 +51,11 @@ main() {
   fi
 
   case ${database} in
-    redis) properties="-p redis.host=${LOCALHOST} -p 
-      redis.port=${REDIS_PORT}";;
+    #redis) properties="-p redis.host=${LOCALHOST} -p 
+      #redis.port=${REDIS_PORT}";;
     rocksdb) properties="-p rocksdb.dir=tmp/rocksdb-ycsb";;
     leveldb) ;;
+    pebblesdb) ;;
     *) error "unsupported database: ${database}";
   esac
 
@@ -71,17 +72,30 @@ main() {
   # remove temp file
   rm ${KEYSIZE_FILE}
 
-  echo "FLUSHDB" | redis-cli 
+  #echo "FLUSHDB" | redis-cli 
 
-  # load data
-  ./${YCSB_COMMAND_PATH} load ${database} ${YCSB_FLAGS} \
-    -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_load.txt
+  if [ "$database" == "pebblesdb" ]; then
+    echo $workload
+    # load data
+    java -cp pebblesdb/target/*:pebblesdb/target/dependency/*:pebblesdb/lib/*: \
+      com.yahoo.ycsb.Client -load -db com.yahoo.ycsb.db.PebblesDbClient -P \
+      ${workload} > ${OUTPUT_DIR}/${id}_load.txt
 
-  # run workload
-  ./${YCSB_COMMAND_PATH} run ${database} ${YCSB_FLAGS} \
-    -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_run.txt
+    # run workload
+    java -cp pebblesdb/target/*:pebblesdb/target/dependency/*:pebblesdb/lib/*: \
+      com.yahoo.ycsb.Client -db com.yahoo.ycsb.db.PebblesDbClient -P \
+      ${workload} > ${OUTPUT_DIR}/${id}_run.txt
+  else
+    # load data
+    ./${YCSB_COMMAND_PATH} load ${database} ${YCSB_FLAGS} \
+      -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_load.txt
 
-  echo "FLUSHDB" | redis-cli 
+    # run workload
+    ./${YCSB_COMMAND_PATH} run ${database} ${YCSB_FLAGS} \
+      -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_run.txt
+  fi
+
+  #echo "FLUSHDB" | redis-cli 
 }
 
 main "${@}"

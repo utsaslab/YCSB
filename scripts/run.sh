@@ -33,6 +33,7 @@ main() {
   local compile=true;
   local workload="";
   local id="0";
+  local threads="1";
 
   while [ ${#} -ne 0 ]; do
     case ${1} in
@@ -41,6 +42,7 @@ main() {
       -w | --workload) workload=${2}; shift 2;;
       -db | --database) database=${2}; shift 2;;
       -i | --id) id=${2}; shift 2;;
+      -t | --threads) threads=${2}; shift 2;;
       --) shift; break;;
       *) warn "bad command ${1}"; usage 1>&2; exit 64;
     esac
@@ -78,21 +80,21 @@ main() {
     echo $workload
     # load data
     java -cp pebblesdb/target/*:pebblesdb/target/dependency/*:pebblesdb/lib/*: \
-      com.yahoo.ycsb.Client -load -db com.yahoo.ycsb.db.PebblesDbClient -P \
-      ${workload} > ${OUTPUT_DIR}/${id}_load.txt
+      com.yahoo.ycsb.Client -load -db com.yahoo.ycsb.db.PebblesDbClient \
+      ${YCSB_FLAGS} -threads ${threads} -P ${workload} > ${OUTPUT_DIR}/${id}_load.txt
 
     # run workload
     java -cp pebblesdb/target/*:pebblesdb/target/dependency/*:pebblesdb/lib/*: \
-      com.yahoo.ycsb.Client -db com.yahoo.ycsb.db.PebblesDbClient -P \
-      ${workload} > ${OUTPUT_DIR}/${id}_run.txt
+      com.yahoo.ycsb.Client -db com.yahoo.ycsb.db.PebblesDbClient \
+      ${YCSB_FLAGS} -threads ${threads} -P ${workload} > ${OUTPUT_DIR}/${id}_run.txt
   else
     # load data
     ./${YCSB_COMMAND_PATH} load ${database} ${YCSB_FLAGS} \
-      -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_load.txt
+        -threads ${threads} -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_load.txt
 
     # run workload
     ./${YCSB_COMMAND_PATH} run ${database} ${YCSB_FLAGS} \
-      -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_run.txt
+        -threads ${threads} -P ${workload} ${properties} > ${OUTPUT_DIR}/${id}_run.txt
   fi
 
   #echo "FLUSHDB" | redis-cli 

@@ -9,7 +9,7 @@ red()           { ansi 31 "$@"; }
 ansi()          { echo -e "\e[${1}m${*:2}\e[0m"; }
 
 error() {
-  echo "ERROR: ${@}" 1>&2
+  red "ERROR: ${@}" 1>&2
   exit 1
 }
 
